@@ -80,7 +80,6 @@ const Icons = {
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
     </svg>
   ),
-  Info:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><circle cx={12} cy={12} r={10}/><line x1={12} y1={16} x2={12} y2={12}/><line x1={12} y1={8} x2={12.01} y2={8}/></svg>,
   Download: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -137,13 +136,12 @@ function Toast({ msg, onDismiss }) {
 }
 
 const NAV = [
-    { id: "dashboard",    label: "Dashboard",     Icon: Icons.Dashboard },
-    { id: "funcionarios", label: "Funcionários",  Icon: Icons.Users     },
-    { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
-    { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
-    { id: "config",       label: "Configurações", Icon: Icons.Settings  },
-    { id: "sobre", label: "Sobre", Icon: Icons.Info },
-  ];
+  { id: "dashboard",    label: "Dashboard",     Icon: Icons.Dashboard },
+  { id: "funcionarios", label: "Funcionários",  Icon: Icons.Users     },
+  { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
+  { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
+  { id: "config",       label: "Configurações", Icon: Icons.Settings  },
+];
 
 const inputCls = "w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400 transition-colors";
 
@@ -217,7 +215,7 @@ export default function Relatorios({ onNavigate }) {
       : pis ? `/api/relatorio/horas/${pis}/pdf`   : `/api/relatorio/horas/todos/pdf`;
 
     const nomeFuncionario = pis
-      ? (funcionarios.find((f) => String(f.pis) === pis)?.name ?? pis)
+      ? (funcionarios.find((f) => String(f.pis) === pis)?.nome ?? pis)
       : "todos";
     const nomeArquivo = `chronus_${tipo}_${nomeFuncionario}_${toApiDate(periodo.di)}-${toApiDate(periodo.df)}.pdf`;
 
@@ -247,7 +245,7 @@ export default function Relatorios({ onNavigate }) {
   const periodoLabel = labelPeriodo(periodo.di, periodo.df);
   const funcLabel    = escopo === "todos"
     ? `Todos os funcionários (${funcionarios.length} ativos)`
-    : (funcionarios.find((f) => String(f.pis) === funcSel)?.name ?? "—");
+    : (funcionarios.find((f) => String(f.pis) === funcSel)?.nome ?? "—");
 
   return (
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
@@ -367,7 +365,7 @@ export default function Relatorios({ onNavigate }) {
                     >
                       {funcionarios.map((f) => (
                         <option key={f.pis} value={String(f.pis)}>
-                          {f.name} {f.cargo ? `— ${f.cargo}` : ""}
+                          {f.nome} {f.cargo ? `— ${f.cargo}` : ""}
                         </option>
                       ))}
                     </select>

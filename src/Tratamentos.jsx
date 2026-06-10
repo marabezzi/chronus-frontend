@@ -40,7 +40,6 @@ const Icons = {
   BarChart:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><line x1={18} y1={20} x2={18} y2={10}/><line x1={12} y1={20} x2={12} y2={4}/><line x1={6} y1={20} x2={6} y2={14}/><line x1={2} y1={20} x2={22} y2={20}/></svg>,
   FileText:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1={16} y1={13} x2={8} y2={13}/><line x1={16} y1={17} x2={8} y2={17}/></svg>,
   Settings:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><circle cx={12} cy={12} r={3}/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>,
-  Info:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><circle cx={12} cy={12} r={10}/><line x1={12} y1={16} x2={12} y2={12}/><line x1={12} y1={8} x2={12.01} y2={8}/></svg>,
   Plus:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><line x1={12} y1={5} x2={12} y2={19}/><line x1={5} y1={12} x2={19} y2={12}/></svg>,
   Trash:     () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>,
   Download:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1={12} y1={15} x2={12} y2={3}/></svg>,
@@ -100,12 +99,12 @@ function ModalTratamento({ form, onChange, arquivo, onArquivo, onSave, onClose, 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70">
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg overflow-hidden flex flex-col shadow-2xl max-h-[90vh]">
+      <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg overflow-hidden flex flex-col shadow-2xl">
 
         <div className="px-6 py-4 border-b border-slate-700 flex items-center justify-between flex-shrink-0">
           <div>
             <h2 className="font-semibold text-slate-100">Novo Tratamento</h2>
-            <p className="text-xs text-slate-500 mt-0.5">Registrar ocorrência D/I/P (Portaria MTE-1510)</p>
+            <p className="text-xs text-slate-500 mt-0.5">Registrar ocorrência D/I/P (Portaria 1510)</p>
           </div>
           <button onClick={onClose} className="text-slate-500 hover:text-slate-200 transition-colors"><Icons.X/></button>
         </div>
@@ -118,7 +117,7 @@ function ModalTratamento({ form, onChange, arquivo, onArquivo, onSave, onClose, 
               <select value={form.pis} onChange={(e) => onChange("pis", e.target.value)} className={selectCls}>
                 <option value="">Selecione...</option>
                 {funcionarios.map((f) => (
-                  <option key={f.pis} value={String(f.pis)}>{f.name}</option>
+                  <option key={f.pis} value={String(f.pis)}>{f.nome}</option>
                 ))}
               </select>
             </Campo>
@@ -228,7 +227,6 @@ const NAV = [
   { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
   { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
   { id: "config",       label: "Configurações", Icon: Icons.Settings  },
-  { id: "sobre", label: "Sobre", Icon: Icons.Info },
 ];
 
 // ── Página ────────────────────────────────────────────────────────────────────
@@ -387,7 +385,7 @@ export default function Tratamentos({ onNavigate }) {
     }
   }
 
-  const funcNome = funcionarios.find((f) => String(f.pis) === funcSel)?.name ?? "";
+  const funcNome = funcionarios.find((f) => String(f.pis) === funcSel)?.nome ?? "";
 
   return (
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
@@ -465,7 +463,7 @@ export default function Tratamentos({ onNavigate }) {
                 ) : (
                   <select value={funcSel} onChange={(e) => setFuncSel(e.target.value)} className={selectCls}>
                     {funcionarios.map((f) => (
-                      <option key={f.pis} value={String(f.pis)}>{f.name}</option>
+                      <option key={f.pis} value={String(f.pis)}>{f.nome}</option>
                     ))}
                   </select>
                 )}

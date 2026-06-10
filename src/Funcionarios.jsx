@@ -9,8 +9,9 @@ function formatPIS(pis) {
   return `${s.slice(0,3)}.${s.slice(3,8)}.${s.slice(8,10)}-${s.slice(10)}`;
 }
 
+// FORM_VAZIO — campos com nomes iguais ao que a API espera
 const FORM_VAZIO = {
-  pis: "", name: "", code: "", registration: "",
+  pis: "", nome: "", code: "", matricula: "",
   cpf: "", rg: "", cargo: "", setor: "",
   email: "", celular: "", salario: "", dataAdmissao: "",
   supervisor: false,
@@ -57,8 +58,12 @@ const Icons = {
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
     </svg>
   ),
-
-  Info:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><circle cx={12} cy={12} r={10}/><line x1={12} y1={16} x2={12} y2={12}/><line x1={12} y1={8} x2={12.01} y2={8}/></svg>,
+  Info: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
+      <circle cx={12} cy={12} r={10}/><line x1={12} y1={16} x2={12} y2={12}/>
+      <line x1={12} y1={8} x2={12.01} y2={8}/>
+    </svg>
+  ),
   Plus: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
       <line x1={12} y1={5} x2={12} y2={19}/><line x1={5} y1={12} x2={19} y2={12}/>
@@ -142,7 +147,7 @@ function Campo({ label, children, span2 = false }) {
 const inputCls  = "w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors";
 const selectCls = `${inputCls} cursor-pointer`;
 
-// ── Modal cadastro/edição ─────────────────────────────────────────────────────
+// ── Modal ─────────────────────────────────────────────────────────────────────
 function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
   const isEdicao = modo === "edit";
 
@@ -155,9 +160,8 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70">
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-screen overflow-hidden flex flex-col shadow-2xl">
+      <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
 
-        {/* Header */}
         <div className="px-6 py-4 border-b border-slate-700 flex items-center justify-between flex-shrink-0">
           <div>
             <h2 className="font-semibold text-slate-100">
@@ -172,7 +176,6 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
           </button>
         </div>
 
-        {/* Form */}
         <div className="overflow-y-auto flex-1 px-6 py-5">
           <div className="grid grid-cols-2 gap-4">
 
@@ -182,8 +185,9 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
               </Campo>
             )}
 
+            {/* nome — campo correto da API */}
             <Campo label="Nome completo *" span2={isEdicao}>
-              <input {...field("name")} placeholder="Nome do funcionário" className={inputCls} required/>
+              <input {...field("nome")} placeholder="Nome do funcionário" className={inputCls} required/>
             </Campo>
 
             <Campo label="CPF">
@@ -200,8 +204,9 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
               <input {...field("setor")} placeholder="Ex: Produção" className={inputCls}/>
             </Campo>
 
+            {/* matricula — campo correto da API */}
             <Campo label="Matrícula">
-              <input {...field("registration")} type="number" placeholder="0" className={inputCls}/>
+              <input {...field("matricula")} type="number" placeholder="0" className={inputCls}/>
             </Campo>
             <Campo label="Código no relógio">
               <input {...field("code")} type="number" placeholder="0" className={inputCls}/>
@@ -226,8 +231,7 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <div
                     onClick={() => onChange("whatsappHabilitado", !form.whatsappHabilitado)}
-                    className={`w-9 h-5 rounded-full transition-colors relative ${form.whatsappHabilitado ? "bg-amber-400" : "bg-slate-600"}`}
-                  >
+                    className={`w-9 h-5 rounded-full transition-colors relative ${form.whatsappHabilitado ? "bg-amber-400" : "bg-slate-600"}`}>
                     <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${form.whatsappHabilitado ? "left-4" : "left-0.5"}`}/>
                   </div>
                   <span className="text-sm text-slate-300">Habilitado</span>
@@ -248,8 +252,7 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <div
                   onClick={() => onChange("supervisor", !form.supervisor)}
-                  className={`w-9 h-5 rounded-full transition-colors relative ${form.supervisor ? "bg-amber-400" : "bg-slate-600"}`}
-                >
+                  className={`w-9 h-5 rounded-full transition-colors relative ${form.supervisor ? "bg-amber-400" : "bg-slate-600"}`}>
                   <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${form.supervisor ? "left-4" : "left-0.5"}`}/>
                 </div>
                 <span className="text-sm text-slate-300">Este funcionário é supervisor</span>
@@ -258,7 +261,6 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="px-6 py-4 border-t border-slate-700 flex justify-end gap-3 flex-shrink-0">
           <button onClick={onClose}
             className="px-4 py-2 text-sm text-slate-400 hover:text-slate-200 border border-slate-600 hover:border-slate-500 rounded-lg transition-colors">
@@ -274,7 +276,6 @@ function ModalFuncionario({ modo, form, onChange, onSave, onClose, saving }) {
   );
 }
 
-// ── Diálogo de confirmação ────────────────────────────────────────────────────
 function ConfirmDialog({ nome, onConfirm, onCancel }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70">
@@ -300,31 +301,29 @@ function ConfirmDialog({ nome, onConfirm, onCancel }) {
 }
 
 const NAV = [
-    { id: "dashboard",    label: "Dashboard",     Icon: Icons.Dashboard },
-    { id: "funcionarios", label: "Funcionários",  Icon: Icons.Users     },
-    { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
-    { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
-    { id: "config",       label: "Configurações", Icon: Icons.Settings  },
-    { id: "sobre", label: "Sobre", Icon: Icons.Info },
-  ];
+  { id: "dashboard",    label: "Dashboard",     Icon: Icons.Dashboard },
+  { id: "funcionarios", label: "Funcionários",  Icon: Icons.Users     },
+  { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
+  { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
+  { id: "config",       label: "Configurações", Icon: Icons.Settings  },
+  { id: "sobre",        label: "Sobre",         Icon: Icons.Info      },
+];
 
-// ── Página principal ──────────────────────────────────────────────────────────
+// ── Página ────────────────────────────────────────────────────────────────────
 export default function Funcionarios({ onNavigate }) {
-  const [lista, setLista]         = useState([]);
-  const [loading, setLoading]     = useState(true);   // true no carregamento inicial
-  const [refreshKey, setRefreshKey] = useState(0);    // incrementar para recarregar
-  const [search, setSearch]       = useState("");
-  const [filtro, setFiltro]       = useState("ativos");
-  const [modal, setModal]         = useState(null);
-  const [form, setForm]           = useState(FORM_VAZIO);
-  const [saving, setSaving]       = useState(false);
-  const [toast, setToast]         = useState(null);
-  const [confirmar, setConfirmar] = useState(null);
+  const [lista, setLista]           = useState([]);
+  const [loading, setLoading]       = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [search, setSearch]         = useState("");
+  const [filtro, setFiltro]         = useState("ativos");
+  const [modal, setModal]           = useState(null);
+  const [form, setForm]             = useState(FORM_VAZIO);
+  const [saving, setSaving]         = useState(false);
+  const [toast, setToast]           = useState(null);
+  const [confirmar, setConfirmar]   = useState(null);
 
-  // FIX: nenhum setState síncrono no corpo do effect — todos rodam após await
   useEffect(() => {
     let cancelado = false;
-
     async function carregar() {
       try {
         const res  = await fetch(`${API}/api/funcionarios`);
@@ -336,26 +335,23 @@ export default function Funcionarios({ onNavigate }) {
         if (!cancelado) setLoading(false);
       }
     }
-
     carregar();
     return () => { cancelado = true; };
-  }, [refreshKey]); // re-executa quando refreshKey mudar
+  }, [refreshKey]);
 
-  // Auto-dismiss toast
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(null), 5000);
     return () => clearTimeout(t);
   }, [toast]);
 
-  // Filtro + busca (client-side)
+  // Filtro + busca usando campo "nome" da API
   const visiveis = lista.filter((f) => {
     const matchFiltro =
-      filtro === "todos"    ? true :
-      filtro === "ativos"   ? f.ativo !== false :
-      f.ativo === false;
+      filtro === "todos"  ? true :
+      filtro === "ativos" ? f.ativo !== false : f.ativo === false;
     const matchSearch = search
-      ? (f.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      ? (f.nome ?? "").toLowerCase().includes(search.toLowerCase()) ||
         String(f.pis ?? "").includes(search)
       : true;
     return matchFiltro && matchSearch;
@@ -376,16 +372,17 @@ export default function Funcionarios({ onNavigate }) {
   }
 
   async function salvar() {
-    if (!form.name?.trim()) { setToast({ ok: false, text: "O nome é obrigatório." }); return; }
+    // Validação usando "nome" — campo correto da API
+    if (!form.nome?.trim()) { setToast({ ok: false, text: "O nome é obrigatório." }); return; }
     if (modal === "create" && !form.pis?.trim()) { setToast({ ok: false, text: "O PIS é obrigatório." }); return; }
 
     setSaving(true);
     try {
       const payload = {
         ...form,
-        code:         form.code         ? Number(form.code)         : null,
-        registration: form.registration ? Number(form.registration) : null,
-        salario:      form.salario      ? Number(form.salario)      : null,
+        code:      form.code      ? Number(form.code)      : null,
+        matricula: form.matricula ? Number(form.matricula) : null,
+        salario:   form.salario   ? Number(form.salario)   : null,
       };
       const url    = modal === "create" ? `${API}/api/funcionarios` : `${API}/api/funcionarios/${form.pis}`;
       const method = modal === "create" ? "POST" : "PUT";
@@ -393,7 +390,7 @@ export default function Funcionarios({ onNavigate }) {
       if (!res.ok) throw new Error();
       setToast({ ok: true, text: modal === "create" ? "Funcionário cadastrado!" : "Alterações salvas!" });
       setModal(null);
-      setRefreshKey((k) => k + 1); // recarrega a lista
+      setRefreshKey((k) => k + 1);
     } catch {
       setToast({ ok: false, text: "Erro ao salvar. Verifique os dados e tente novamente." });
     } finally {
@@ -430,19 +427,14 @@ export default function Funcionarios({ onNavigate }) {
 
   return (
     <div className="flex h-screen bg-slate-900 text-slate-100 overflow-hidden">
-
       {modal && (
-        <ModalFuncionario
-          modo={modal} form={form} onChange={onCampo}
-          onSave={salvar} onClose={() => setModal(null)} saving={saving}
-        />
+        <ModalFuncionario modo={modal} form={form} onChange={onCampo}
+          onSave={salvar} onClose={() => setModal(null)} saving={saving}/>
       )}
       {confirmar && (
-        <ConfirmDialog
-          nome={confirmar.nome}
+        <ConfirmDialog nome={confirmar.nome}
           onConfirm={() => inativar(confirmar.pis)}
-          onCancel={() => setConfirmar(null)}
-        />
+          onCancel={() => setConfirmar(null)}/>
       )}
 
       {/* Sidebar */}
@@ -492,24 +484,19 @@ export default function Funcionarios({ onNavigate }) {
         <main className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-5">
           <Toast msg={toast} onDismiss={() => setToast(null)}/>
 
-          {/* Busca + filtros */}
           <div className="flex items-center gap-3">
             <div className="relative flex-1 max-w-sm">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><Icons.Search/></span>
-              <input
-                value={search} onChange={(e) => setSearch(e.target.value)}
+              <input value={search} onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar por nome ou PIS..."
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
-              />
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"/>
             </div>
             <div className="flex bg-slate-800 border border-slate-700 rounded-lg p-1 gap-1">
               {[{ id: "ativos", label: "Ativos" }, { id: "inativos", label: "Inativos" }, { id: "todos", label: "Todos" }].map(({ id, label }) => (
                 <button key={id} onClick={() => setFiltro(id)}
                   className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
                     filtro === id ? "bg-amber-400 text-slate-900" : "text-slate-400 hover:text-slate-200"
-                  }`}>
-                  {label}
-                </button>
+                  }`}>{label}</button>
               ))}
             </div>
             <span className="text-xs text-slate-500 ml-auto">
@@ -517,7 +504,6 @@ export default function Funcionarios({ onNavigate }) {
             </span>
           </div>
 
-          {/* Tabela */}
           <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
@@ -532,9 +518,7 @@ export default function Funcionarios({ onNavigate }) {
                   Array.from({ length: 6 }).map((_, i) => (
                     <tr key={i} className="border-b border-slate-700 last:border-0">
                       {Array.from({ length: 5 }).map((_, j) => (
-                        <td key={j} className="px-5 py-3.5">
-                          <div className="h-4 bg-slate-700 rounded animate-pulse w-28"/>
-                        </td>
+                        <td key={j} className="px-5 py-3.5"><div className="h-4 bg-slate-700 rounded animate-pulse w-28"/></td>
                       ))}
                     </tr>
                   ))
@@ -547,8 +531,9 @@ export default function Funcionarios({ onNavigate }) {
                 ) : (
                   visiveis.map((f) => (
                     <tr key={f.pis} className="border-b border-slate-700 last:border-0 hover:bg-slate-700 transition-colors">
+                      {/* nome — campo correto da API */}
                       <td className="px-5 py-3.5">
-                        <span className="font-medium text-slate-200">{f.name ?? "—"}</span>
+                        <span className="font-medium text-slate-200">{f.nome ?? "—"}</span>
                       </td>
                       <td className="px-5 py-3.5">
                         <span className="text-slate-300">{f.cargo ?? "—"}</span>
@@ -563,7 +548,7 @@ export default function Funcionarios({ onNavigate }) {
                             <Icons.Edit/> Editar
                           </button>
                           {f.ativo !== false ? (
-                            <button onClick={() => setConfirmar({ pis: f.pis, nome: f.name })}
+                            <button onClick={() => setConfirmar({ pis: f.pis, nome: f.nome })}
                               className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-red-400 px-2 py-1 rounded-md hover:bg-slate-600 transition-colors">
                               <Icons.Trash/> Inativar
                             </button>
