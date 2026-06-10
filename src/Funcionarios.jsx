@@ -57,6 +57,8 @@ const Icons = {
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
     </svg>
   ),
+
+  Info:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><circle cx={12} cy={12} r={10}/><line x1={12} y1={16} x2={12} y2={12}/><line x1={12} y1={8} x2={12.01} y2={8}/></svg>,
   Plus: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
       <line x1={12} y1={5} x2={12} y2={19}/><line x1={5} y1={12} x2={19} y2={12}/>
@@ -298,12 +300,13 @@ function ConfirmDialog({ nome, onConfirm, onCancel }) {
 }
 
 const NAV = [
-  { id: "dashboard",    label: "Dashboard",     Icon: Icons.Dashboard },
-  { id: "funcionarios", label: "Funcionários",  Icon: Icons.Users     },
-  { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
-  { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
-  { id: "config",       label: "Configurações", Icon: Icons.Settings  },
-];
+    { id: "dashboard",    label: "Dashboard",     Icon: Icons.Dashboard },
+    { id: "funcionarios", label: "Funcionários",  Icon: Icons.Users     },
+    { id: "relatorios",   label: "Relatórios",    Icon: Icons.BarChart  },
+    { id: "tratamentos",  label: "Tratamentos",   Icon: Icons.FileText  },
+    { id: "config",       label: "Configurações", Icon: Icons.Settings  },
+    { id: "sobre", label: "Sobre", Icon: Icons.Info },
+  ];
 
 // ── Página principal ──────────────────────────────────────────────────────────
 export default function Funcionarios({ onNavigate }) {
