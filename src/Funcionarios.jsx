@@ -481,7 +481,7 @@ export default function Funcionarios({ onNavigate }) {
           </button>
         </header>
 
-        <main className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-5">
+        <main className="flex-1 overflow-hidden px-8 py-6 flex flex-col gap-5">
           <Toast msg={toast} onDismiss={() => setToast(null)}/>
 
           <div className="flex items-center gap-3">
@@ -504,7 +504,7 @@ export default function Funcionarios({ onNavigate }) {
             </span>
           </div>
 
-          <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
+          <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden flex-1 overflow-y-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-700">
