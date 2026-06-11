@@ -223,7 +223,7 @@ export default function Relatorios({ onNavigate }) {
       const res = await fetch(`${API}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ di: toApiDate(periodo.di), df: toApiDate(periodo.df) }),
+        body: JSON.stringify({ dataInicial: toApiDate(periodo.di), dataFinal: toApiDate(periodo.df) }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 

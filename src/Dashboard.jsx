@@ -242,7 +242,7 @@ export default function Dashboard({ onNavigate }) {
       const res = await fetch(`${API}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ di, df }),
+        body: JSON.stringify({ dataInicial: di, dataFinal: df }),
       });
       if (!res.ok) throw new Error();
       const blob = await res.blob();
