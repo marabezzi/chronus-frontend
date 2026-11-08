@@ -4,7 +4,7 @@ Esta aplicação reserva portas **exclusivas no host** para coexistir com outros
 
 ## Este repositório
 
-Frontend React 3000 e proxy para API Chronus dedicada na porta 8113; no Docker a API é resolvida como chronus-api:8113.
+Frontend React 3000 e proxy para API Chronus dedicada na porta 8111; no Docker a API do repositório api-chronus é resolvida como chronus-api:8111.
 
 ## Verificação no computador
 
