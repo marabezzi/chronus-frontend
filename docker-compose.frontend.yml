@@ -5,7 +5,7 @@
 #   docker-compose -f docker-compose.yml -f ../chronus-frontend/docker-compose.yml up -d
 #
 # O serviço "chronus-frontend" entra na mesma rede "chronus_network" do backend,
-# o que permite ao nginx resolver "chronus-api:8081" internamente.
+# o que permite ao nginx resolver "chronus-api:8113" internamente.
 
 services:
   chronus-frontend:
@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile
     container_name: chronus-frontend
     ports:
-      - "3000:80"        # acesso: http://localhost:3000
+      - "127.0.0.1:${CHRONUS_FRONTEND_PORT:-3000}:80"        # acesso: http://localhost:3000
     # depends_on:
     #   - chronus-api      # opcional (dependência da API)
     networks:
