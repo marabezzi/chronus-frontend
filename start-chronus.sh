@@ -17,5 +17,5 @@ docker-compose -f docker-compose.frontend.yml up -d --build
 echo ""
 echo "✅ Ambiente Chronus rodando!"
 echo "Frontend: http://localhost:3000"
-echo "API:      http://localhost:8081"
-echo "Evolution: http://localhost:8082"
+echo "API:      http://localhost:8111"
+echo "Evolution: http://localhost:8112"
